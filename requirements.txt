@@ -5,7 +5,7 @@ Flask_Login==0.6.2
 Flask-Gravatar==0.5.0
 flask_sqlalchemy==3.0.5
 Flask_WTF==1.1.1
-Werkzeug==2.3.7
+Werkzeug==2.2.3
 WTForms==3.1.0
 SQLAlchemy==2.0.22
 libgravatar==1.0.4
