@@ -27,6 +27,12 @@ pip3 install -r requirements.txt
 This will install the packages from the requirements.txt for this project.
 '''
 
+smtp_user = os.environ.get('SMTP_USER')
+smtp_password = os.environ.get('SMTP_PASSWORD')
+admin_email = os.environ.get('ADMIN_EMAIL')
+contact_email = os.environ.get('CONTACT_EMAIL')
+
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('FLASK_KEY')
 ckeditor = CKEditor(app)
@@ -241,8 +247,22 @@ def about():
     return render_template("about.html", logged_in=current_user.is_authenticated)
 
 
-@app.route("/contact")
+@app.route("/contact", method=['POST', 'GET'])
 def contact():
+     if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        phone = request.form.get('phone')
+        message = request.form.get('message')
+        print(name, email, phone, message, smtp_user, smtp_password, admin_email, contact_email)
+        with SMTP('mail.smtp2go.com') as connection:
+            connection.starttls()
+            connection.login(user=smtp_user, password=smtp_password)
+            message1 = f'Subject:Blogster Contact request received\n\nThank You for contacting us. We have received your request\n\nYour message: {message}\nWe will get back to you ASAP.\n\nTeam Blogster'.encode('utf-8')
+            message2 = f"Subject:New Contact Request.\n\nFrom: {name}\nEmail: {email}\nPhone: {phone}\nMessage: {message}\n".encode('utf-8')
+            connection.sendmail(from_addr=admin_email, to_addrs=email, msg=message1)
+            connection.sendmail(from_addr=admin_email, to_addrs=contact_email, msg=message2)
+        return render_template('contact.html', logged_in=current_user.is_authenticated, msg_sent=True)
     return render_template("contact.html", logged_in=current_user.is_authenticated)
 
 
