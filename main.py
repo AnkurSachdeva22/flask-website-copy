@@ -11,7 +11,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import relationship
 from forms import CreatePostForm, LoginForm, RegisterForm, CommentForm
 from libgravatar import Gravatar
-import os
+from smtplib import SMTP
 
 
 '''
