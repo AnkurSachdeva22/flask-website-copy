@@ -247,7 +247,7 @@ def about():
     return render_template("about.html", logged_in=current_user.is_authenticated)
 
 
-@app.route("/contact", method=['POST', 'GET'])
+@app.route("/contact", methods=['POST', 'GET'])
 def contact():
     if request.method == 'POST':
         name = request.form.get('name')
