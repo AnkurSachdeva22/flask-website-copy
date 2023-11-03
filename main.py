@@ -249,7 +249,7 @@ def about():
 
 @app.route("/contact", method=['POST', 'GET'])
 def contact():
-     if request.method == 'POST':
+    if request.method == 'POST':
         name = request.form.get('name')
         email = request.form.get('email')
         phone = request.form.get('phone')
